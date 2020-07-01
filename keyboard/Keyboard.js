@@ -26,6 +26,8 @@ const Keyboard = {
         this.elements.keysContainer.classList.add("keyboard__keys");
         this.elements.keysContainer.appendChild(this._createKeys());
 
+        this.elements.keys = this.elements.keysContainer.querySelectorAll(".keyboard__key");
+
         // add to DOM
         this.elements.main.appendChild(this.elements.keysContainer);
         document.body.appendChild(this.elements.main);
@@ -130,11 +132,17 @@ const Keyboard = {
     },
 
     _triggerEvent(handlerName) {
-        console.log("Event Triggered! Event Name: " + handlerName);
+        this.properties.capsLock = !this.properties.capsLock;
+
     },
 
     _toggleCapsLock() {
-        console.log("Caps Lock Toggled!");
+        this.properties.capsLock = !this.properties.capsLock;
+        for (const key of this.elements.keys) {
+            if (key.childElementCount === 0) { // applies only to non-icon keys since they have no child tags, (but icon ones do, thru createIconHTMl())
+                key.textContent = this.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
+            }
+        }
     },
 
     open(initialValue, oninput, onclose) {
