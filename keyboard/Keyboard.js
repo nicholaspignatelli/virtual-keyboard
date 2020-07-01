@@ -22,7 +22,7 @@ const Keyboard = {
         this.elements.keysContainer = document.createElement("div");
 
         // setup main elements
-        this.elements.main.classList.add("keyboard", "dev-keyboard--hidden");
+        this.elements.main.classList.add("keyboard", "keyboard--hidden");
         this.elements.keysContainer.classList.add("keyboard__keys");
         this.elements.keysContainer.appendChild(this._createKeys());
 
@@ -31,6 +31,14 @@ const Keyboard = {
         // add to DOM
         this.elements.main.appendChild(this.elements.keysContainer);
         document.body.appendChild(this.elements.main);
+
+        // auto use keyboard for elements with
+        document.querySelectorAll(".use-keyboard-input").forEach(element => {
+            element.addEventListener("focus", () => {
+                this.open(element.value, currValue =>
+                    element.value = currValue);
+            });
+        })
     },
     // underscore naming convention implies private method
     _createKeys() {
@@ -114,7 +122,7 @@ const Keyboard = {
                 default:
                     keyElement.textContent = key.toLowerCase();
                     keyElement.addEventListener("click", () => {
-                        this.properties.value += this.properties.capsLock ? key.toUpperCase() : key.toLocaleUpperCase();
+                        this.properties.value += this.properties.capsLock ? key.toUpperCase() : key.toLowerCase();
                         this._triggerEvent("oninput");
                         keyElement.classList.toggle("keyboard__key--active", this.properties.capsLock);
                     });
@@ -132,12 +140,16 @@ const Keyboard = {
     },
 
     _triggerEvent(handlerName) {
-        this.properties.capsLock = !this.properties.capsLock;
+        // this.properties.capsLock = !this.properties.capsLock;
+        if (typeof this.eventHandlers[handlerName] == "function") {
+            this.eventHandlers[handlerName](this.properties.value);
+        }
 
     },
 
     _toggleCapsLock() {
         this.properties.capsLock = !this.properties.capsLock;
+
         for (const key of this.elements.keys) {
             if (key.childElementCount === 0) { // applies only to non-icon keys since they have no child tags, (but icon ones do, thru createIconHTMl())
                 key.textContent = this.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
@@ -146,13 +158,24 @@ const Keyboard = {
     },
 
     open(initialValue, oninput, onclose) {
-
+        this.properties.value = initialValue || "";
+        this.eventHandlers.oninput = oninput;
+        this.eventHandlers.onclose = onclose;
+        this.elements.main.classList.remove("keyboard--hidden");
     },
     close() {
-
+        this.properties.value = "";
+        this.eventHandlers.oninput = oninput;
+        this.eventHandlers.onclose = onclose;
+        this.elements.main.classList.add("keyboard--hidden");
     }
 };
 
 window.addEventListener("DOMContentLoaded", function () {
     Keyboard.init();
+    // Keyboard.open("", function (currentValue) {
+    //     console.log("Thanks for inspecting my code :)\n");
+    // }, function (currentValue) {
+    //     console.log("keyboard closed! Finish with:\n" + currentValue);
+    // })
 })
