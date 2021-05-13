@@ -1,7 +1,8 @@
-# mobile style virtual keyboard
-This was a quick and wonderful tutorial I followed along with to get my vanilla js skills up. 
+#virtual-keyboard
 
-## How to try it
-Clone this repo and open `index.html` 
+is a keyboard that runs in browser (think like the mobile keyboard that slides up from the bottom of your screen). 
+
+It's using vanilla Javascript to perform some simple DOM manipulation!
+
 
 
