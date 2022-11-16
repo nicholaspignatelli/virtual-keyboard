@@ -12,9 +12,9 @@ The other lesson is even if a program is small, or impractical, or can be done b
 
 
 ### Documentation
-- ``` init()```: creates the elements, adds classes, adds eventlisteners, and appends children to build out the main components.
-- ``` _createKeys()```: builds the keys. Adds a button element, classes, and a ruleset for handling special keys like backspace, shift, etc. the keyboard layout is hardcoded in, and really should be parameterized. 
-- ``` _triggerEvent()```: generic event triggerer.
-- ``` _toggleCapsLock()```: knows to caps lock only the letters (not icons) by checking if a ```key``` has any ```children```. Icons have ```<i>``` children, the letter keys have none.
-- ``` open()```: triggers the opening of keyboard
-- ``` close()```: 
+- ``` init():``` creates the elements, adds classes, adds eventlisteners, and appends children to build out the main components.
+- ``` _createKeys():``` builds the keys. Adds a button element, classes, and a ruleset for handling special keys like backspace, shift, etc. the keyboard layout is hardcoded in, and really should be parameterized. 
+- ``` _triggerEvent():``` generic event triggerer.
+- ``` _toggleCapsLock():``` knows to caps lock only the letters (not icons) by checking if a ```key``` has any ```children```. Icons have ```<i>``` children, the letter keys have none.
+- ``` open():``` triggers the opening of keyboard
+- ``` close():``` triggers the closing
